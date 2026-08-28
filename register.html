@@ -45,6 +45,8 @@
   .auth-btn:hover { background: var(--primary-hover); }
   .auth-btn:disabled { opacity: 0.6; cursor: wait; }
   .auth-link-btn { margin-top: 0.9rem; width: 100%; background: none; border: none; color: var(--ink-soft); font-size: 0.82rem; cursor: pointer; text-decoration: underline; display: block; text-align: center; }
+  .auth-links-row { display: flex; justify-content: space-between; margin-top: 0.9rem; }
+  .auth-links-row .auth-link-btn { margin-top: 0; width: auto; text-align: left; }
   .auth-error { color: var(--danger); font-size: 0.83rem; margin-top: 0.7rem; min-height: 1em; }
   .auth-success { color: var(--good); font-size: 0.83rem; margin-top: 0.7rem; background: var(--good-soft); border: 1px solid #b8ecd8; border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; }
   .auth-hint { text-align: center; font-size: 0.8rem; color: var(--ink-soft); margin-top: 1rem; }
@@ -106,7 +108,10 @@
         <input type="password" id="signin-password" placeholder="••••••••" autocomplete="current-password">
         <button class="auth-btn" id="signin-btn">Sign in</button>
         <div class="auth-error" id="signin-error" role="alert"></div>
-        <button type="button" class="auth-link-btn" id="show-signup-btn">Don't have an account? Sign up</button>
+        <div class="auth-links-row">
+          <button type="button" class="auth-link-btn" id="show-reset-btn">Forgot password?</button>
+          <button type="button" class="auth-link-btn" id="show-signup-btn">Don't have an account? Sign up</button>
+        </div>
       </div>
 
       <div id="panel-signup" style="display:none;">
@@ -121,10 +126,30 @@
         <button class="auth-btn" id="signup-btn">Sign up</button>
         <div class="auth-error" id="signup-error" role="alert"></div>
         <div class="auth-success" id="signup-success" style="display:none;"></div>
-        <button type="button" class="auth-link-btn" id="show-signin-btn">Already have an account? Sign in</button>
+        <button type="button" class="auth-link-btn" id="show-signin-from-signup-btn">Already have an account? Sign in</button>
       </div>
 
-      <p class="auth-hint">Need to reset your password? Use the <a href="/dashboard">Dashboard</a> sign-in screen — it's the same account.</p>
+      <div id="panel-reset-request" style="display:none;">
+        <h2>Reset your password</h2>
+        <p class="sub">Enter your email and we'll send you a password reset link.</p>
+        <label for="reset-email">Email</label>
+        <input type="email" id="reset-email" placeholder="you@example.com" autocomplete="email">
+        <button class="auth-btn" id="reset-request-btn">Send reset link</button>
+        <div class="auth-error" id="reset-request-error" role="alert"></div>
+        <div class="auth-success" id="reset-request-success" style="display:none;"></div>
+        <button type="button" class="auth-link-btn" id="show-signin-from-reset-btn">Back to sign in</button>
+      </div>
+
+      <div id="panel-reset-confirm" style="display:none;">
+        <h2>Set a new password</h2>
+        <p class="sub">Choose a new password for your account.</p>
+        <label for="reset-new-password">New password</label>
+        <input type="password" id="reset-new-password" placeholder="At least 6 characters" autocomplete="new-password">
+        <label for="reset-new-password-confirm">Confirm new password</label>
+        <input type="password" id="reset-new-password-confirm" placeholder="••••••••" autocomplete="new-password">
+        <button class="auth-btn" id="reset-confirm-btn">Set new password</button>
+        <div class="auth-error" id="reset-confirm-error" role="alert"></div>
+      </div>
     </div>
   </div>
 
@@ -159,6 +184,11 @@
   const PUBLISHABLE_KEY = 'sb_publishable_XNXOnZeJcOsszoFYwbjphw_J9AEHlOw';
   const supabase = createClient(SUPABASE_URL, PUBLISHABLE_KEY);
 
+  // Always redirect to the real hosted URL, never window.location.href - that
+  // resolves to something unusable (or a giant data: URL) when this page is
+  // opened locally instead of from the deployed site.
+  const REDIRECT_URL = 'https://lh-event-llh3.vercel.app/register';
+
   let TRACKS = [];
   let sessions = [];
   let registrationCounts = {};
@@ -172,8 +202,16 @@
   const signedInEmail = document.getElementById('signed-in-email');
   const signoutBtn = document.getElementById('signout-btn');
 
-  const panelSignin = document.getElementById('panel-signin');
-  const panelSignup = document.getElementById('panel-signup');
+  const panels = {
+    signin: document.getElementById('panel-signin'),
+    signup: document.getElementById('panel-signup'),
+    'reset-request': document.getElementById('panel-reset-request'),
+    'reset-confirm': document.getElementById('panel-reset-confirm')
+  };
+  function showPanel(name) {
+    Object.entries(panels).forEach(([key, el]) => { el.style.display = key === name ? 'block' : 'none'; });
+  }
+
   const signinEmail = document.getElementById('signin-email');
   const signinPassword = document.getElementById('signin-password');
   const signinBtn = document.getElementById('signin-btn');
@@ -184,6 +222,16 @@
   const signupBtn = document.getElementById('signup-btn');
   const signupError = document.getElementById('signup-error');
   const signupSuccess = document.getElementById('signup-success');
+
+  const resetEmail = document.getElementById('reset-email');
+  const resetRequestBtn = document.getElementById('reset-request-btn');
+  const resetRequestError = document.getElementById('reset-request-error');
+  const resetRequestSuccess = document.getElementById('reset-request-success');
+
+  const resetNewPassword = document.getElementById('reset-new-password');
+  const resetNewPasswordConfirm = document.getElementById('reset-new-password-confirm');
+  const resetConfirmBtn = document.getElementById('reset-confirm-btn');
+  const resetConfirmError = document.getElementById('reset-confirm-error');
 
   const attendeeName = document.getElementById('attendee-name');
   const registeringAsEmail = document.getElementById('registering-as-email');
@@ -205,13 +253,18 @@
 
   document.getElementById('show-signup-btn').addEventListener('click', () => {
     signupEmail.value = signinEmail.value.trim();
-    panelSignin.style.display = 'none';
-    panelSignup.style.display = 'block';
+    signupError.textContent = '';
+    signupSuccess.style.display = 'none';
+    showPanel('signup');
   });
-  document.getElementById('show-signin-btn').addEventListener('click', () => {
-    panelSignup.style.display = 'none';
-    panelSignin.style.display = 'block';
+  document.getElementById('show-signin-from-signup-btn').addEventListener('click', () => showPanel('signin'));
+  document.getElementById('show-reset-btn').addEventListener('click', () => {
+    resetEmail.value = signinEmail.value.trim();
+    resetRequestError.textContent = '';
+    resetRequestSuccess.style.display = 'none';
+    showPanel('reset-request');
   });
+  document.getElementById('show-signin-from-reset-btn').addEventListener('click', () => showPanel('signin'));
 
   signinBtn.addEventListener('click', async () => {
     const email = signinEmail.value.trim();
@@ -259,6 +312,48 @@
     } finally {
       signupBtn.disabled = false;
       signupBtn.textContent = 'Sign up';
+    }
+  });
+
+  resetRequestBtn.addEventListener('click', async () => {
+    const email = resetEmail.value.trim();
+    resetRequestError.textContent = '';
+    resetRequestSuccess.style.display = 'none';
+    if (!isValidEmail(email)) { resetRequestError.textContent = 'Enter a valid email address.'; return; }
+
+    resetRequestBtn.disabled = true;
+    resetRequestBtn.textContent = 'Sending…';
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: REDIRECT_URL });
+      if (error) throw error;
+      resetRequestSuccess.style.display = 'block';
+      resetRequestSuccess.textContent = 'If an account exists for that email, a reset link has been sent.';
+    } catch (err) {
+      resetRequestError.textContent = err.message || 'Could not send the reset email.';
+    } finally {
+      resetRequestBtn.disabled = false;
+      resetRequestBtn.textContent = 'Send reset link';
+    }
+  });
+
+  resetConfirmBtn.addEventListener('click', async () => {
+    const password = resetNewPassword.value;
+    const confirm = resetNewPasswordConfirm.value;
+    resetConfirmError.textContent = '';
+    if (password.length < 6) { resetConfirmError.textContent = 'Password must be at least 6 characters.'; return; }
+    if (password !== confirm) { resetConfirmError.textContent = 'Passwords do not match.'; return; }
+
+    resetConfirmBtn.disabled = true;
+    resetConfirmBtn.textContent = 'Saving…';
+    try {
+      const { data, error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
+      await afterAuth(data.user);
+    } catch (err) {
+      resetConfirmError.textContent = err.message || 'Could not set the new password.';
+    } finally {
+      resetConfirmBtn.disabled = false;
+      resetConfirmBtn.textContent = 'Set new password';
     }
   });
 
@@ -387,6 +482,15 @@
     } finally {
       confirmBtn.disabled = false;
       confirmBtn.textContent = 'Confirm registration';
+    }
+  });
+
+  supabase.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      authWrap.style.display = 'flex';
+      loadingWrap.style.display = 'none';
+      registerWrap.style.display = 'none';
+      showPanel('reset-confirm');
     }
   });
 
