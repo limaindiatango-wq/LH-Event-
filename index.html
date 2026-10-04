@@ -390,6 +390,9 @@
   }
   form.contact input:focus, form.contact textarea:focus, form.contact select:focus { outline: 2px solid var(--cyan); outline-offset: 1px; border-color: transparent; }
   form.contact textarea { min-height: 100px; resize: vertical; }
+  .direct-contact { margin-top: 22px; color: var(--ink-soft); }
+  .direct-contact a, .foot-email { color: var(--cyan); font-weight: 600; text-decoration: none; }
+  .direct-contact a:hover, .foot-email:hover { text-decoration: underline; }
   .form-msg { font-size: 0.9rem; color: var(--teal); min-height: 1.2em; }
   .btn[disabled] { opacity: .6; cursor: progress; }
   .wa-link { border-color: rgba(37, 211, 102, 0.55); }
@@ -923,9 +926,10 @@
             <li>Fixed, transparent pricing — no custom quotes</li>
             <li>Pay in stages as we deliver</li>
           </ul>
+          <p class="direct-contact">Prefer email? Write to us at <a href="mailto:liang@cutcost-ai.com">liang@cutcost-ai.com</a></p>
         </div>
         <!-- Enquiries are delivered to data-email via FormSubmit (formsubmit.co); if that fails the visitor's email app opens instead. -->
-        <form class="contact" id="contact-form" data-email="limaindiatango@gmail.com" novalidate>
+        <form class="contact" id="contact-form" data-email="liang@cutcost-ai.com" novalidate>
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
           <div class="form-row">
             <label>Name<input name="name" autocomplete="name" required></label>
@@ -960,6 +964,7 @@
     <div class="brand">
       <a class="logo" href="#top">CutCost <span>AI</span></a>
       <span class="motto">AI now. Cut manpower costs.</span>
+      <a class="foot-email" href="mailto:liang@cutcost-ai.com">liang@cutcost-ai.com</a>
     </div>
     <div class="legal">
       Copyright <span id="year">2026</span>, CutCost AI Pte. Ltd. All rights reserved.<br>
