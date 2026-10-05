@@ -145,10 +145,10 @@
   .hero .sub { font-family: var(--font-display); font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; margin-top: 16px; color: #cfe0ff; }
   .hero .lead { color: var(--ink-soft); font-size: 1.08rem; margin-top: 18px; max-width: 540px; }
   .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-  .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; max-width: 560px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 44px; max-width: 420px; }
+  .hero-note { margin-top: 18px; max-width: 520px; font-size: 0.78rem; font-style: italic; color: var(--ink-faint); line-height: 1.5; }
   .hero-stats div { border-left: 3px solid var(--cyan); padding: 2px 0 2px 14px; }
   .hero-stats div:nth-child(2) { border-color: var(--teal); }
-  .hero-stats div:nth-child(3) { border-color: var(--purple); }
   .hero-stats strong { display: block; font-family: var(--font-display); font-size: 1.55rem; font-weight: 800; }
   .hero-stats span { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.35; display: block; }
 
@@ -448,7 +448,7 @@
     .wrap { padding: 0 16px; }
     .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .benefits, .why-grid, .pill-row { grid-template-columns: 1fr; }
-    .hero-stats { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
     .hero-stats strong { font-size: 1.2rem; }
     .hero-stats div { padding-left: 10px; }
     .whw .card { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
@@ -531,10 +531,10 @@
             <a class="btn btn-ghost" href="#savings">Calculate your savings</a>
           </div>
           <div class="hero-stats">
-            <div><strong>S$26k+</strong><span>potential year 1 savings per AI module</span></div>
-            <div><strong>72%</strong><span>lower cost vs one S$3,000/month staff</span></div>
-            <div><strong>Month 2</strong><span>when net savings start</span></div>
+            <div><strong>S$26k+*</strong><span>potential year 1 savings per AI module</span></div>
+            <div><strong>72%*</strong><span>lower cost vs one S$3,000/month staff</span></div>
           </div>
+          <p class="hero-note">* All numbers shown are estimated projections only. Illustrated example is based on 1 employee with a gross salary of S$3,000 per month.</p>
         </div>
         <div class="hero-visual">
           <div class="photo"><img src="logistics.jpg" alt="Container ship, cargo truck and aircraft at a port at sunset" width="822" height="372"></div>
