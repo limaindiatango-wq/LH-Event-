@@ -111,6 +111,8 @@
   }
   .eyebrow::before { content: ""; width: 28px; height: 3px; border-radius: 3px; background: var(--cyan); }
   .section-head { max-width: 760px; margin-bottom: 48px; }
+  .section-photo { margin: 0 0 40px; border-radius: 24px; overflow: hidden; border: 1px solid var(--line-strong); box-shadow: 0 30px 80px -30px rgba(59, 130, 246, 0.5); aspect-ratio: 21 / 8; }
+  .section-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
   .section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.75rem); margin-top: 14px; font-weight: 800; }
   .section-head p { color: var(--ink-soft); margin-top: 14px; font-size: 1.08rem; }
   .center { text-align: center; margin-left: auto; margin-right: auto; }
@@ -448,6 +450,7 @@
     .cta { padding: 36px 28px; }
   }
   @media (max-width: 640px) {
+    .section-photo { aspect-ratio: 16 / 10; border-radius: 18px; margin-bottom: 28px; }
     .wrap { padding: 0 16px; }
     .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .benefits, .why-grid, .pill-row { grid-template-columns: 1fr; }
@@ -826,6 +829,9 @@
   <!-- ================= SAVINGS ================= -->
   <section id="savings">
     <div class="wrap">
+      <figure class="section-photo reveal">
+        <img src="savings.jpg" alt="Calculator resting on a pile of banknotes" width="1600" height="1066" loading="lazy" decoding="async">
+      </figure>
       <div class="section-head reveal">
         <span class="eyebrow">Savings</span>
         <h2>Save over <span class="grad">S$26,000* in year 1</span> with just 1 AI automation.</h2>
