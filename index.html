@@ -327,6 +327,7 @@
   .results .big { grid-column: 1 / -1; border-color: rgba(34, 211, 238, 0.5); background: rgba(34, 211, 238, 0.07); }
   .results .big b { font-size: 2.2rem; color: var(--cyan); }
   .results .neg { color: var(--red); }
+  .results .wide { grid-column: 1 / -1; }
 
   .kpis { display: grid; gap: 14px; }
   .kpi { display: flex; gap: 18px; align-items: center; padding: 22px 24px; }
@@ -827,7 +828,7 @@
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Savings</span>
-        <h2>Save over <span class="grad">S$26,000 in year 1</span> with just 1 AI automation.</h2>
+        <h2>Save over <span class="grad">S$26,000* in year 1</span> with just 1 AI automation.</h2>
         <p>Illustrative example based on 1 staff member at S$3,000 per month. CutCost AI prices are before GST. Adjust the numbers below to see what it could look like for your team.</p>
       </div>
 
@@ -851,32 +852,31 @@
             </div>
           </div>
           <div class="results" aria-live="polite">
-            <div class="big"><small>Estimated net manpower savings in year 1</small><b id="r-net">S$26,012.00</b></div>
-            <div><small>Manpower cost without AI, year 1</small><b id="r-manpower">S$36,000.00</b></div>
-            <div><small>CutCost AI cost, year 1</small><b id="r-cost">S$9,988.00</b></div>
-            <div><small>Reduction vs manpower cost</small><b id="r-pct">72%</b></div>
-            <div><small>Net savings from year 2 (per year)</small><b id="r-y2">S$30,012.00</b></div>
+            <div class="big"><small>Estimated net manpower savings in year 1</small><b id="r-net">S$26,012.00*</b></div>
+            <div><small>Manpower cost without AI, year 1</small><b id="r-manpower">S$36,000.00*</b></div>
+            <div><small>CutCost AI cost, year 1</small><b id="r-cost">S$9,988.00*</b></div>
+            <div class="wide"><small>Reduction vs manpower cost</small><b id="r-pct">72%*</b></div>
           </div>
         </div>
 
         <div class="kpis">
           <div class="card kpi reveal">
             <div class="icon c-cyan"><svg><use href="#i-coins"/></svg></div>
-            <div><small>Estimated potential manpower savings in 1 year</small><b class="c-cyan">S$26,012</b></div>
+            <div><small>Estimated potential manpower savings in 1 year</small><b class="c-cyan">S$26,012*</b></div>
           </div>
           <div class="card kpi reveal">
             <svg class="donut" viewBox="0 0 42 42" aria-hidden="true">
               <circle cx="21" cy="21" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
               <circle cx="21" cy="21" r="15.9" fill="none" stroke="#22d3ee" stroke-width="6" stroke-dasharray="72.3 27.7" stroke-dashoffset="25" stroke-linecap="butt"/>
             </svg>
-            <div><b class="c-cyan">72%</b><small>reduction vs S$36,000 annual manpower cost</small></div>
+            <div><b class="c-cyan">72%*</b><small>reduction vs S$36,000 annual manpower cost</small></div>
           </div>
           <div class="card kpi reveal" style="display:block;">
             <small style="font-weight:600; color: var(--ink); font-size: 1rem;">Investment in year 1 (before GST)</small>
             <div style="display:grid; gap:10px; margin-top: 14px;">
-              <div style="display:flex; justify-content:space-between; gap: 12px;"><span>One-time setup cost</span><b style="font-size:1.1rem;">S$4,499</b></div>
-              <div style="display:flex; justify-content:space-between; gap: 12px;"><span>Monthly subscription (S$499 × 11 months)</span><b style="font-size:1.1rem;">S$5,489</b></div>
-              <div style="display:flex; justify-content:space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 10px;"><span>Total year 1 cost</span><b style="font-size:1.1rem;" class="c-cyan">S$9,988</b></div>
+              <div style="display:flex; justify-content:space-between; gap: 12px;"><span>One-time setup cost</span><b style="font-size:1.1rem;">S$4,499*</b></div>
+              <div style="display:flex; justify-content:space-between; gap: 12px;"><span>Monthly subscription (S$499 × 11 months)</span><b style="font-size:1.1rem;">S$5,489*</b></div>
+              <div style="display:flex; justify-content:space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 10px;"><span>Total year 1 cost</span><b style="font-size:1.1rem;" class="c-cyan">S$9,988*</b></div>
             </div>
           </div>
         </div>
@@ -891,7 +891,7 @@
             </thead>
             <tbody id="year1-body"></tbody>
             <tfoot>
-              <tr><td>Year 1 total</td><td>36,000.00</td><td>9,988.00</td><td class="hl">26,012.00</td><td><span class="note">4,499 + (499 × 11 months)</span></td></tr>
+              <tr><td>Year 1 total</td><td>36,000.00*</td><td>9,988.00*</td><td class="hl">26,012.00*</td><td><span class="note">4,499 + (499 × 11 months)</span></td></tr>
             </tfoot>
           </table>
         </div>
@@ -901,7 +901,7 @@
       <div class="scale">
         <div class="reveal">
           <span class="eyebrow">Scale</span>
-          <h3 style="margin-top: 12px;">Enjoy manpower cost savings of over <span class="big">S$156,000</span> a year with 6 AI automation modules.</h3>
+          <h3 style="margin-top: 12px;">Enjoy manpower cost savings of over <span class="big">S$156,000*</span> a year with 6 AI automation modules.</h3>
           <p>Start with one module, then add new workflow modules when you're ready. Each module frees one more staff member for other tasks.</p>
         </div>
         <div class="card reveal">
@@ -1025,7 +1025,7 @@
     const v = Math.round((3000 * 12 - YEAR1_COST) * n);
     const row = document.createElement("div");
     row.className = "bar";
-    row.innerHTML = `<span>${n} module${n > 1 ? "s" : ""}</span><div class="track"><div class="fill" style="width:${(n / 6) * 100}%"></div></div><b>${v.toLocaleString("en-SG")}</b>`;
+    row.innerHTML = `<span>${n} module${n > 1 ? "s" : ""}</span><div class="track"><div class="fill" style="width:${(n / 6) * 100}%"></div></div><b>${v.toLocaleString("en-SG")}*</b>`;
     bars.appendChild(row);
   }
 
@@ -1041,16 +1041,14 @@
     const manpower = s * 12 * modules;
     const cost = YEAR1_COST * modules;
     const net = manpower - cost;
-    const y2 = (s * 12 - MONTHLY * 12) * modules;
     salaryOut.textContent = money(s, 0);
     modOut.textContent = modules;
-    document.getElementById("r-manpower").textContent = money(manpower);
-    document.getElementById("r-cost").textContent = money(cost);
+    document.getElementById("r-manpower").textContent = money(manpower) + "*";
+    document.getElementById("r-cost").textContent = money(cost) + "*";
     const rNet = document.getElementById("r-net");
-    rNet.textContent = money(net);
+    rNet.textContent = money(net) + "*";
     rNet.classList.toggle("neg", net < 0);
-    document.getElementById("r-pct").textContent = Math.max(0, Math.round((net / manpower) * 100)) + "%";
-    document.getElementById("r-y2").textContent = money(y2);
+    document.getElementById("r-pct").textContent = Math.max(0, Math.round((net / manpower) * 100)) + "%*";
   }
   salary.addEventListener("input", calc);
   modButtons.forEach((b) => b.addEventListener("click", () => {
